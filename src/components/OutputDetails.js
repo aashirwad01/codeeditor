@@ -10,13 +10,13 @@ export default function OutputDetails({outputMessage}) {
             </strong>
         </p>
         <p>
-            Status:{" "}
+            Memory:{" "}
             <strong>
                 {outputMessage?.memory}
             </strong>
         </p>
         <p>
-            Status:{" "}
+            Time:{" "}
             <strong>
                 {outputMessage?.time}
             </strong>

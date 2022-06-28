@@ -8,6 +8,8 @@ import OutputWindow from './OutputWindow';
 import {Buffer} from 'buffer';
 import InputWindow from './InputWindow';
 import { Button } from '@mui/material';
+import OutputDetails from './OutputDetails';
+import LanguagesList from './LanguagesList';
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -43,11 +45,20 @@ export default function FrontPage() {
     const [code, setCode] = useState(javascriptDefault);
     const [input,setInput]=useState("");
     const [outputMessage,setOutputMessage]=useState(null)
+    const [languageId,setLanguageId]= useState('');
+
+    const handleChange = (event) => {
+      // console.log(event)
+        setLanguageId(event.target.value);
+        
+      };
 
     const handleCompile = () => {
+
+     
         
         const formData = {
-          language_id: 63,
+          language_id: languageId,
           // encode source code in base64
           source_code: btoa(code),
           stdin:btoa(input),
@@ -125,6 +136,7 @@ export default function FrontPage() {
     
   return (
     <>
+    <LanguagesList handleChange={handleChange} languageId={languageId}/>
     <CodeEditorWindow code={code} setCode={setCode}/>
     <OutputWindow outputMessage={outputMessage}/>
     <InputWindow input={input} setInput={setInput}/>
@@ -133,7 +145,10 @@ export default function FrontPage() {
     >
         Execute
     </Button>
-    
+    <div>
+      {outputMessage && <OutputDetails outputMessage={outputMessage}/>}
+    </div>
+
     
     </>
   )
