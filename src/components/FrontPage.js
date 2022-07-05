@@ -10,6 +10,10 @@ import InputWindow from './InputWindow';
 import { Button } from '@mui/material';
 import OutputDetails from './OutputDetails';
 import LanguagesList from './LanguagesList';
+import { Card } from '@mui/material';
+import { CardHeader } from '@mui/material';
+import { CardContent } from '@mui/material';
+
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -45,21 +49,18 @@ export default function FrontPage() {
     const [code, setCode] = useState(javascriptDefault);
     const [input,setInput]=useState("");
     const [outputMessage,setOutputMessage]=useState(null)
-    const [languageId,setLanguageId]= useState('');
+    const [languageId,setLanguageId]= useState(63);
+    const [languageName,setLanguageName]=useState('javascript')
 
-    const handleChange = (event) => {
-      // console.log(event)
-        setLanguageId(event.target.value);
-        
-      };
+    
 
     const handleCompile = () => {
 
-     
+     console.log(languageId)
         
         const formData = {
           language_id: languageId,
-          // encode source code in base64
+          
           source_code: btoa(code),
           stdin:btoa(input),
         };
@@ -136,9 +137,16 @@ export default function FrontPage() {
     
   return (
     <>
-    <LanguagesList handleChange={handleChange} languageId={languageId}/>
-    <CodeEditorWindow code={code} setCode={setCode}/>
+    <LanguagesList setLanguageId={setLanguageId} setLanguageName={setLanguageName} languageId={languageId} languageName={languageName}/>
+    <CodeEditorWindow code={code} setCode={setCode} languageName={languageName}/>
+    <Card>  <CardHeader>Output Here</CardHeader>
+    <CardContent>
     <OutputWindow outputMessage={outputMessage}/>
+    </CardContent>
+   
+    
+    </Card>
+   
     <InputWindow input={input} setInput={setInput}/>
     <Button
     onClick={handleCompile}
@@ -146,6 +154,7 @@ export default function FrontPage() {
         Execute
     </Button>
     <div>
+    
       {outputMessage && <OutputDetails outputMessage={outputMessage}/>}
     </div>
 

@@ -4,7 +4,7 @@ import { Paper } from "@mui/material";
 import React, { useState } from 'react'
 
 
-export default function CodeEditorWindow({code,setCode}) {
+export default function CodeEditorWindow({code,setCode,languageName}) {
 
   const [value,setValue]=useState(code || "")
 
@@ -20,9 +20,10 @@ export default function CodeEditorWindow({code,setCode}) {
     <Editor
     height="60vh"
     width="100%"
-    language={"javascript"}
+    language={languageName}
     value={value}
     onChange={handleChange}
+   
     
     
     
