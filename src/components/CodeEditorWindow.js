@@ -1,18 +1,20 @@
 import Editor from "@monaco-editor/react";
 import { Paper } from "@mui/material";
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 export default function CodeEditorWindow({code,setCode,languageName}) {
 
   const [value,setValue]=useState(code || "")
 
+
+
   const handleChange = (value) =>{
    
     setValue(value)
     setCode(value)
-    
+   
   }
 
   return (

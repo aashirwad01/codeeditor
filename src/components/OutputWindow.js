@@ -82,7 +82,7 @@ export default function OutputWindow({outputMessage}) {
   return (
     
         <>
-        {(outputMessage?.status?.id!==6)&&(outputMessage?.status?.id ?(Buffer.from(outputMessage.stdout, 'base64').toString('utf8')) !== null
+        {(outputMessage?.status?.id===3)&&(outputMessage?.status?.id ?(Buffer.from(outputMessage.stdout, 'base64').toString('utf8')) !== null
   ? <OutputMessageDetail/>
   : null:"Output will be displayed here")}
       

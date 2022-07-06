@@ -57,6 +57,7 @@ export default function FrontPage() {
     const handleCompile = () => {
 
      console.log(languageId)
+     console.log(languageName)
         
         const formData = {
           language_id: languageId,

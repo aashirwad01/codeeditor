@@ -25,14 +25,14 @@ export default function LanguagesList({setLanguageId,setLanguageName,languageId,
 
   useEffect(() => {
     setLanguageId(languageOptions[selectedIndex].id)
-    setLanguageName(languageName[selectedIndex].name)
+    setLanguageName(languageOptions[selectedIndex].value)
     
   }, [selectedIndex])
   
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
-    console.log(languageOptions[selectedIndex])
+   
     // setLanguageId(languageOptions[selectedIndex].id)
     setLanguageName(languageOptions[selectedIndex].value)
     setAnchorEl(null);
