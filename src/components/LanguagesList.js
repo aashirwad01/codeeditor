@@ -8,12 +8,14 @@ import { Menu } from "@mui/material";
 import { ListItem } from "@mui/material";
 import { NativeSelect } from "@mui/material";
 import { InputLabel } from "@mui/material";
+import { display } from "@mui/system";
 
 
 import React, { useEffect, useState } from 'react'
 import { languageOptions } from "../constants/languageOptions";
+import ThemeRadio from "./ThemeRadio";
 
-export default function LanguagesList({setLanguageId,setLanguageName,languageId,languageName}) {
+export default function LanguagesList({setLanguageId,setLanguageName,handlethemeChange}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const open = Boolean(anchorEl);
@@ -44,14 +46,17 @@ export default function LanguagesList({setLanguageId,setLanguageName,languageId,
     
 
   return (
-    <Box style={{marginBottom:'1vh'}}
+    <Box  color='primary.main' bgcolor="primary.temp" style={{marginBottom:'1vh' ,display:'flex',flexDirection:'row' , alignItems:'center' , justifyContent:'space-between' }}
     >
         <List
+           
+      
         component="nav"
         aria-label="Device settings"
-        sx={{ bgcolor: 'background.paper' }}
+       
       >
             <ListItem
+       
           button
           id="lock-button"
           aria-haspopup="listbox"
@@ -61,13 +66,15 @@ export default function LanguagesList({setLanguageId,setLanguageName,languageId,
           onClick={handleClickListItem}
         >
           <ListItemText
+           
             primary="Select Language"
             secondary={languageOptions[selectedIndex].name}
-            
+          
           />
         </ListItem>
       </List>
             <Menu
+          
         id="lock-menu"
         anchorEl={anchorEl}
         open={open}
@@ -84,7 +91,7 @@ export default function LanguagesList({setLanguageId,setLanguageName,languageId,
                 
             return(
              
-                <MenuItem key={languageeach.id}
+                <MenuItem    sx={{ color:'primary.main'        , bgcolor:"secondary.main"   }} key={languageeach.id}
                 
                 
             selected={index === selectedIndex}
@@ -104,6 +111,7 @@ export default function LanguagesList({setLanguageId,setLanguageName,languageId,
 
 </Menu>
 
+<ThemeRadio handlethemeChange={handlethemeChange} />
 
     </Box>
   )

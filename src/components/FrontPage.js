@@ -1,18 +1,26 @@
-
-
-import React, { useState } from 'react'
-import CodeEditorWindow from './CodeEditorWindow';
+import React, { useState } from "react";
+import CodeEditorWindow from "./CodeEditorWindow";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import OutputWindow from './OutputWindow';
-import {Buffer} from 'buffer';
-import InputWindow from './InputWindow';
-import { Button } from '@mui/material';
-import OutputDetails from './OutputDetails';
-import LanguagesList from './LanguagesList';
-import { Card } from '@mui/material';
-import { CardHeader } from '@mui/material';
-import { CardContent } from '@mui/material';
+import OutputWindow from "./OutputWindow";
+import { Buffer } from "buffer";
+import InputWindow from "./InputWindow";
+import { Button } from "@mui/material";
+import OutputDetails from "./OutputDetails";
+import LanguagesList from "./LanguagesList";
+import { Card } from "@mui/material";
+import { CardHeader } from "@mui/material";
+import { CardContent } from "@mui/material";
+import { Box } from "@mui/material";
+import Toastsnackbar, { ToastCustom } from "./Toastsnackbar";
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
+import { red } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
+import { Typography } from "@mui/material";
+
+
+
 
 
 const javascriptDefault = `/**
@@ -46,120 +54,162 @@ console.log(binarySearch(arr, target));
 `;
 
 export default function FrontPage() {
-    const [code, setCode] = useState(javascriptDefault);
-    const [input,setInput]=useState("");
-    const [outputMessage,setOutputMessage]=useState(null)
-    const [languageId,setLanguageId]= useState(63);
-    const [languageName,setLanguageName]=useState('javascript')
+  const [code, setCode] = useState(javascriptDefault);
+  const [input, setInput] = useState("");
+  const [outputMessage, setOutputMessage] = useState(null);
+  const [languageId, setLanguageId] = useState(63);
+  const [languageName, setLanguageName] = useState("javascript");
+  const [errorStatusMessage ,setErrorStatusMessage]=useState(null);
+  const [reqSent,setReqSent]=useState(false)
+  const [themeVal,setThemeVal]=useState("hc-black")
 
-    
+  const handlethemeChange =(e)=>{
+    console.log(e.target.value)
+    setThemeVal(e.target.value)
 
-    const handleCompile = () => {
+  }
+  const handleCompile = () => {
+    console.log(languageId);
+    console.log(languageName);
+    setReqSent(true)
+    const formData = {
+      language_id: languageId,
 
-     console.log(languageId)
-     console.log(languageName)
-        
-        const formData = {
-          language_id: languageId,
+      source_code: btoa(code),
+      stdin: btoa(input),
+    };
+    const options = {
+      method: "POST",
+      url: process.env.REACT_APP_RAPID_API_URL,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "content-type": "application/json",
+        "Content-Type": "application/json",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+      },
+      data: formData,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log("res.data", response.data);
+        const token = response.data.token;
+        checkStatus(token);
+      })
+      .catch((err) => {
+        console.log(err);
+        let error = err.response ? err.response.data : err;
+        console.log(error)
+        console.log(err.message)
+        // get error status
+        let status = err.response.status;
+        console.log("status", status);
+        setErrorStatusMessage(err.message)
+        if (status === 429) {
+          console.log("too many requests", status);
+
+     
+          setErrorStatusMessage("Too many requests")
+
           
-          source_code: btoa(code),
-          stdin:btoa(input),
-        };
-        const options = {
-          method: "POST",
-          url: process.env.REACT_APP_RAPID_API_URL,
-          params: { base64_encoded: "true", fields: "*" },
-          headers: {
-            "content-type": "application/json",
-            "Content-Type": "application/json",
-            "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-            "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-          },
-          data: formData,
-        };
-    
-        axios
-          .request(options)
-          .then(function (response) {
-            console.log("res.data", response.data);
-            const token = response.data.token;
-            checkStatus(token);
-          })
-          .catch((err) => {
-            console.log(err)
-            let error = err.response ? err.response.data : err;
-            // get error status
-            let status = err.response.status;
-            console.log("status", status);
-            if (status === 429) {
-              console.log("too many requests", status);
-    
-              toast.error(`Too many requests.Something went wrong! Please try again.`)
-            }
-            console.log("catch block",error)
-          });
-      };
-
-
-      const checkStatus = async (token) => {
-        const options = {
-          method: "GET",
-          url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
-          params: { base64_encoded: "true", fields: "*" },
-          headers: {
-            "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-            "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-          },
-        };
-        try {
-          let response = await axios.request(options);
-          let statusId = response.data.status?.id;
-    
-          // Processed - we have a result
-          if (statusId === 1 || statusId === 2) {
-            // still processing
-            setTimeout(() => {
-              checkStatus(token);
-            }, 2000);
-            return;
-          } else {
-           
-            setOutputMessage(response.data);
-            toast.success(`Compiled Successfully!`);
-            console.log("response.data", response.data);
-            return;
-          }
-        } catch (err) {
-          console.log("err", err);
-         
-          toast.error(`Something went wrong! Please try again.`)
         }
-      };
-    
+        console.log("catch block", error);
+      });
+  };
+
+  const checkStatus = async (token) => {
+    const options = {
+      method: "GET",
+      url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+      },
+    };
+    try {
+      let response = await axios.request(options);
+      let statusId = response.data.status?.id;
+
+      // Processed - we have a result
+      if (statusId === 1 || statusId === 2) {
+        // still processing
+        setTimeout(() => {
+          checkStatus(token);
+        }, 2000);
+        return;
+      } else {
+        setOutputMessage(response.data);
+        // toast.success(`Compiled Successfully!`);
+        
+        console.log("response.data", response.data);
+        
+      }
+    } catch (err) {
+      console.log("err", err);
+
+     
+      setErrorStatusMessage(`Something went wrong! Please try again.`)
+      
+
+    }
+  };
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: green[500],
+        temp:red[500],
+      },
+      secondary: {
+        main: red[500],
+      },
+    },
+  });
+
   return (
     <>
-    <LanguagesList setLanguageId={setLanguageId} setLanguageName={setLanguageName} languageId={languageId} languageName={languageName}/>
-    <CodeEditorWindow code={code} setCode={setCode} languageName={languageName}/>
-    <Card>  <CardHeader>Output Here</CardHeader>
-    <CardContent>
-    <OutputWindow outputMessage={outputMessage}/>
-    </CardContent>
+     <ThemeProvider theme={theme}>
    
-    
-    </Card>
-   
-    <InputWindow input={input} setInput={setInput}/>
-    <Button
-    onClick={handleCompile}
-    >
-        Execute
-    </Button>
-    <div>
-    
-      {outputMessage && <OutputDetails outputMessage={outputMessage}/>}
-    </div>
+      <LanguagesList 
+        setLanguageId={setLanguageId}
+        setLanguageName={setLanguageName}
+        languageId={languageId}
+        languageName={languageName}
+        handlethemeChange={handlethemeChange}
+      />
+      
 
-    
+     
+      
+      <CodeEditorWindow
+        code={code}
+        setCode={setCode}
+        languageName={languageName}
+        themeVal={themeVal}
+      />
+
+      <Typography sx={{ marginTop:'1vh',color:'primary.main'        , bgcolor:"secondary.main"   }}>Output will be displayed here</Typography>
+      
+      <Card square={true} sx={{color:'primary.main'        , bgcolor:"secondary.main"}}>
+        {" "}
+        <CardHeader>Output Here</CardHeader>
+        <CardContent>
+          <OutputWindow outputMessage={outputMessage} />
+        </CardContent>
+      </Card>
+      
+
+      <InputWindow input={input} setInput={setInput} />
+      <Button variant="contained"  color="primary" onClick={handleCompile}>Execute</Button>
+      <div>
+        {outputMessage && <OutputDetails outputMessage={outputMessage} />}
+      </div>
+      {(!(errorStatusMessage))&&<Toastsnackbar outputMessage={outputMessage} reqSent={reqSent} setReqSent={setReqSent}/>}
+      {(errorStatusMessage)&&<ToastCustom  errorStatusMessage={errorStatusMessage} color={'warning'} reqSent={reqSent} setReqSent={setReqSent} />}
+      
+      </ThemeProvider>
     </>
-  )
+  );
 }

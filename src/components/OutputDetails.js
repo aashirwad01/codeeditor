@@ -1,28 +1,30 @@
+import { Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 
 export default function OutputDetails({outputMessage}) {
   return (
-    <div>
-        <p>
+    <Box color='primary.temp' bgcolor="primary.main">
+        <Typography>
             Status:{" "}
             <strong>
                 {outputMessage?.status?.description}
             </strong>
-        </p>
-        <p>
+        </Typography>
+        <Typography>
             Memory:{" "}
             <strong>
                 {outputMessage?.memory}
             </strong>
-        </p>
-        <p>
+        </Typography>
+        <Typography>
             Time:{" "}
             <strong>
                 {outputMessage?.time}
             </strong>
-        </p>
+        </Typography>
 
 
-    </div>
+    </Box>
   )
 }
