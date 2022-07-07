@@ -222,7 +222,7 @@ export default function FrontPage() {
         themeVal={themeVal}
       />
 
-<Box style={{display:'flex',flexDirection:'row' , justifyContent:'space-evenly' }}>
+<Box flexDirection={{xs:'column',md:'row'}} style={{display:'flex', justifyContent:'space-evenly' }}>
 <InputWindow  input={input} setInput={setInput} handleCompile={handleCompile} />
 
 <OutputBox outputMessage={outputMessage} />

@@ -42,7 +42,7 @@ import { Paper } from '@mui/material';
 export default function InputWindow({input,setInput,handleCompile}) {
   return (
     <Box flexBasis='50%' sx={{mt:'1vh'}}>
-    <Paper   sx={{mr:'2vh' }} >
+    <Paper   sx={{mr:{xs:'0',md:'2vh'} }} >
     <TextField
     sx={{height:'16vh' , padding:'0.5vw' , color:'black' }}
     multiline

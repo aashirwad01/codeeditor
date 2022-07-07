@@ -17,7 +17,7 @@ export const getDesignTokens = (mode) => ({
       primary: {
         ...deepPurple,
         ...(mode === 'dark' && {
-          main: purple[900],
+          main: deepOrange[900],
         }),
       },
       

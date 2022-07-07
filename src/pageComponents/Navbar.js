@@ -11,7 +11,7 @@ export default function Navbar({setLanguageId,setLanguageName,handlethemeChange,
 
    
 
-    style={{marginBottom:'1vh' ,display:'flex',flexDirection:'row' , alignItems:'center' , justifyContent:'space-between'  }}
+    style={{marginBottom:'1vh' ,display:'flex',flexDirection:'row' , alignItems:'center' , justifyContent:'space-between' ,  }}
     
     >
         <LanguagesList 

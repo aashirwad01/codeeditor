@@ -48,6 +48,8 @@ export default function LanguagesList({setLanguageId,setLanguageName,mode}) {
 
   return (
     <Box  
+    sx={{flexWrap:'wrap'}}
+    flexBasis={{xs:'30%',sm:'15%',md:'25%',lg:'15%'}}
     // color={mode==='dark'?`orange`:'primary.main'}
    
     >

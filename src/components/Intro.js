@@ -9,17 +9,17 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 
 export default function Intro() {
   return (
-    <Box sx={{display:'flex', flexDirection:'column' , textAlign:'center'}}>
-        <Typography variant='h6' sx={{fontSize: 20,
+    <Box   sx={{display:'flex', flexDirection:'column' , textAlign:'center'}}>
+        <Typography  sx={{ fontSize:{xs:'1rem',md:'1.5rem'},
         background: `linear-gradient(
             to left,  #cf23cf, #ff6b08 
              );`,
     
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent"}}>
-            Your Simple Fast Code Editor
+            Simply Fast Code Editor
         </Typography>
-        <Typography sx={{
+        <Typography  sx={{ fontSize:{xs:'0.75rem',md:'1rem'},
     background: `linear-gradient(
         to right, #f32170, #ff6b08,
          #cf23cf, #eedd44);`,
