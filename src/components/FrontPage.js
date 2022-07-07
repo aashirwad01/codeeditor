@@ -205,7 +205,10 @@ export default function FrontPage() {
       setLanguageId={setLanguageId}
       setLanguageName={setLanguageName}
       languageId={languageId}
-      languageName={languageName}/>
+      languageName={languageName}
+      mode={mode}
+      
+      />
    
      
       

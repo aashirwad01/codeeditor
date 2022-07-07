@@ -57,7 +57,9 @@ export default function InputWindow({input,setInput,handleCompile}) {
     >
 
     </TextField>
-    <Button fullWidth variant='contained'  color="primary" onClick={handleCompile}>Execute</Button>
+    <Button fullWidth variant='contained' sx={{backgroundImage: `linear-gradient(
+            to left,  #cf23cf, #ff6b08 
+             );`,}}  color="primary" onClick={handleCompile}>Execute</Button>
     </Paper>
     </Box>
   )

@@ -8,6 +8,7 @@ import { Menu } from "@mui/material";
 import { ListItem } from "@mui/material";
 import { NativeSelect } from "@mui/material";
 import { InputLabel } from "@mui/material";
+import { pink } from "@mui/material/colors";
 import { display } from "@mui/system";
 
 
@@ -15,7 +16,7 @@ import React, { useEffect, useState } from 'react'
 import { languageOptions } from "../constants/languageOptions";
 import ThemeRadio from "./ThemeRadio";
 
-export default function LanguagesList({setLanguageId,setLanguageName,handlethemeChange}) {
+export default function LanguagesList({setLanguageId,setLanguageName,mode}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const open = Boolean(anchorEl);
@@ -47,7 +48,7 @@ export default function LanguagesList({setLanguageId,setLanguageName,handletheme
 
   return (
     <Box  
-    // color='primary.main' bgcolor="primary.temp" 
+    // color={mode==='dark'?`orange`:'primary.main'}
    
     >
         <List
@@ -71,6 +72,7 @@ export default function LanguagesList({setLanguageId,setLanguageName,handletheme
            
             primary="Select Language"
             secondary={languageOptions[selectedIndex].name}
+           
           
           />
         </ListItem>

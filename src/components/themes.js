@@ -17,12 +17,12 @@ export const getDesignTokens = (mode) => ({
       primary: {
         ...deepPurple,
         ...(mode === 'dark' && {
-          main: deepOrange[900],
+          main: purple[900],
         }),
       },
       
       background:{
-        default:lightGreen[100],
+        default:lightGreen[50],
           // paper:pink[100],
       },
       ...(mode === 'dark' && {
