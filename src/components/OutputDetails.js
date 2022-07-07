@@ -5,6 +5,7 @@ import React from 'react'
 export default function OutputDetails({outputMessage}) {
   return (
     <Box 
+    
    
     >
         <Typography sx={{background: "-webkit-linear-gradient(18deg, #800080 10%, #FF8E53 90%)",

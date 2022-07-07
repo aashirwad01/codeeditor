@@ -14,7 +14,7 @@ export default function OutputBox({ outputMessage }) {
     <Box sx={{  }}
     flexBasis='50%'
     >
-      <Paper  sx={{height:'18vh'  , paddingLeft:'1vw' }} >
+      <Paper  sx={{height:'18vh'  , paddingLeft:'1vw' ,}} >
         {" "}
         <Typography color='#a6a6a6' sx={{mt:'1vh' ,paddingTop:'1.8vh'}} >
           Output will be displayed here
