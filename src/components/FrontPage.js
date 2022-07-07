@@ -1,25 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CodeEditorWindow from "./CodeEditorWindow";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+
 import OutputWindow from "./OutputWindow";
-import { Buffer } from "buffer";
-import InputWindow from "./InputWindow";
+
+import InputWindow from "../pageComponents/InputWindow";
 import { Button } from "@mui/material";
 import OutputDetails from "./OutputDetails";
-import LanguagesList from "./LanguagesList";
+
 import { Card } from "@mui/material";
-import { CardHeader } from "@mui/material";
+
 import { CardContent } from "@mui/material";
 import { Box } from "@mui/material";
 import Toastsnackbar, { ToastCustom } from "./Toastsnackbar";
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
-import { red } from '@mui/material/colors';
-import { green } from '@mui/material/colors';
+
 import { Typography } from "@mui/material";
 
-
+import { CssBaseline } from "@mui/material";
+import { ColorModeContext } from "./SwitchModeButton";
+import { getDesignTokens } from "./themes";
+import Navbar from "../pageComponents/Navbar";
+import OutputBox from "../pageComponents/OutputBox";
+import { Container } from "@mui/system";
 
 
 
@@ -53,6 +57,12 @@ const target = 5;
 console.log(binarySearch(arr, target));
 `;
 
+
+
+
+
+
+
 export default function FrontPage() {
   const [code, setCode] = useState(javascriptDefault);
   const [input, setInput] = useState("");
@@ -62,12 +72,37 @@ export default function FrontPage() {
   const [errorStatusMessage ,setErrorStatusMessage]=useState(null);
   const [reqSent,setReqSent]=useState(false)
   const [themeVal,setThemeVal]=useState("hc-black")
+  const [mode, setMode] = useState("light");
 
-  const handlethemeChange =(e)=>{
-    console.log(e.target.value)
-    setThemeVal(e.target.value)
-
-  }
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) =>
+          prevMode === "light" ? "dark" : "light"
+        );
+      },
+    }),
+    []
+  );
+  
+  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  useEffect(() => {
+    
+      if(mode==='dark'){
+      
+        setThemeVal('hc-black')
+      }
+      else{
+        
+        setThemeVal('vs')
+      }
+  
+    
+  
+    
+  }, [mode])
+  
+  
   const handleCompile = () => {
     console.log(languageId);
     console.log(languageName);
@@ -156,29 +191,23 @@ export default function FrontPage() {
 
     }
   };
-const theme = createTheme({
-    palette: {
-      primary: {
-        main: green[500],
-        temp:red[500],
-      },
-      secondary: {
-        main: red[500],
-      },
-    },
-  });
 
+  
+  
   return (
     <>
+    <ColorModeContext.Provider value={colorMode}>
      <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme/>
+
+<Container maxWidth="xl">
+      <Navbar
+      setLanguageId={setLanguageId}
+      setLanguageName={setLanguageName}
+      languageId={languageId}
+      languageName={languageName}/>
    
-      <LanguagesList 
-        setLanguageId={setLanguageId}
-        setLanguageName={setLanguageName}
-        languageId={languageId}
-        languageName={languageName}
-        handlethemeChange={handlethemeChange}
-      />
+     
       
 
      
@@ -190,26 +219,26 @@ const theme = createTheme({
         themeVal={themeVal}
       />
 
-      <Typography sx={{ marginTop:'1vh',color:'primary.main'        , bgcolor:"secondary.main"   }}>Output will be displayed here</Typography>
+<Box style={{display:'flex',flexDirection:'row' , justifyContent:'space-evenly' }}>
+<InputWindow  input={input} setInput={setInput} handleCompile={handleCompile} />
+
+<OutputBox outputMessage={outputMessage} />
+
+</Box>
+
       
-      <Card square={true} sx={{color:'primary.main'        , bgcolor:"secondary.main"}}>
-        {" "}
-        <CardHeader>Output Here</CardHeader>
-        <CardContent>
-          <OutputWindow outputMessage={outputMessage} />
-        </CardContent>
-      </Card>
       
 
-      <InputWindow input={input} setInput={setInput} />
-      <Button variant="contained"  color="primary" onClick={handleCompile}>Execute</Button>
-      <div>
+     
+     
+      {/* <div>
         {outputMessage && <OutputDetails outputMessage={outputMessage} />}
-      </div>
+      </div> */}
       {(!(errorStatusMessage))&&<Toastsnackbar outputMessage={outputMessage} reqSent={reqSent} setReqSent={setReqSent}/>}
       {(errorStatusMessage)&&<ToastCustom  errorStatusMessage={errorStatusMessage} color={'warning'} reqSent={reqSent} setReqSent={setReqSent} />}
-      
+      </Container>
       </ThemeProvider>
+      </ColorModeContext.Provider>
     </>
   );
 }

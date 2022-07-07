@@ -46,7 +46,9 @@ export default function LanguagesList({setLanguageId,setLanguageName,handletheme
     
 
   return (
-    <Box  color='primary.main' bgcolor="primary.temp" style={{marginBottom:'1vh' ,display:'flex',flexDirection:'row' , alignItems:'center' , justifyContent:'space-between' }}
+    <Box  
+    // color='primary.main' bgcolor="primary.temp" 
+   
     >
         <List
            
@@ -91,7 +93,9 @@ export default function LanguagesList({setLanguageId,setLanguageName,handletheme
                 
             return(
              
-                <MenuItem    sx={{ color:'primary.main'        , bgcolor:"secondary.main"   }} key={languageeach.id}
+                <MenuItem    
+                // sx={{ color:'primary.main'        , bgcolor:"secondary.main"   }} 
+                key={languageeach.id}
                 
                 
             selected={index === selectedIndex}
@@ -111,7 +115,7 @@ export default function LanguagesList({setLanguageId,setLanguageName,handletheme
 
 </Menu>
 
-<ThemeRadio handlethemeChange={handlethemeChange} />
+{/* <ThemeRadio handlethemeChange={handlethemeChange} /> */}
 
     </Box>
   )

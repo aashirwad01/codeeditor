@@ -4,7 +4,9 @@ import React from 'react'
 
 export default function OutputDetails({outputMessage}) {
   return (
-    <Box color='primary.temp' bgcolor="primary.main">
+    <Box 
+   
+    >
         <Typography>
             Status:{" "}
             <strong>

@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 export default function ThemeRadio({handlethemeChange}) {
   return (
     <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+      <FormLabel id="demo-row-radio-buttons-group-label">Mode</FormLabel>
       <RadioGroup
      
         row
@@ -16,9 +16,9 @@ export default function ThemeRadio({handlethemeChange}) {
         name="row-radio-buttons-group"
         onChange={handlethemeChange}
       >
-        <FormControlLabel   value="vs-dark" control={<Radio />} label="Dark" />
+        {/* <FormControlLabel   value="vs-dark" control={<Radio />} label="Dark" /> */}
         <FormControlLabel value="vs" control={<Radio />} label="Light" />
-        <FormControlLabel value="hc-black" control={<Radio />} label="Black" />
+        <FormControlLabel value="hc-black" control={<Radio />} label="Dark" />
         
       </RadioGroup>
     </FormControl>
